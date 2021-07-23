@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.Optional;
+
 @ExtendWith(BenchmarkExtension.class)
 public class OptionalBenchmark {
 
@@ -23,6 +25,19 @@ public class OptionalBenchmark {
     }
 
     @Test
+    public void optionalFieldsTest() {
+        BWithOptionalField bWithOptionalField = new BWithOptionalField("test");
+        AWithOptionalField aWithOptionalField = new AWithOptionalField(bWithOptionalField);
+        int n = 0;
+        for (int i = 0; i < ITERATION_COUNT; i++) {
+            n += aWithOptionalField.getbWithOptionalFieldOptional()
+                    .flatMap(BWithOptionalField::getValueOptional)
+                    .map(String::length)
+                    .orElse(0);
+        }
+    }
+
+    @Test
     public void optionalGettersTest() {
         B b = new B("test");
         A a = new A(b);
@@ -36,16 +51,26 @@ public class OptionalBenchmark {
     }
 
     @Test
-    public void optionalFieldsTest() {
-        BWithOptionalField bWithOptionalField = new BWithOptionalField("test");
-        AWithOptionalField aWithOptionalField = new AWithOptionalField(bWithOptionalField);
-        int n = 0;
+    public void optionalInstances() {
         for (int i = 0; i < ITERATION_COUNT; i++) {
-            n += aWithOptionalField.getbWithOptionalFieldOptional()
-                    .flatMap(BWithOptionalField::getValueOptional)
-                    .map(String::length)
-                    .orElse(0);
+            Optional<Integer> x = Optional.of(i);
+        }
+    }
+
+    @Test
+    public void integerInstances() {
+        for (int i = 0; i < ITERATION_COUNT; i++) {
+            Integer j = new Integer(i);
+        }
+    }
+
+    @Test
+    public void intIntern() {
+        for (int i = 0; i < ITERATION_COUNT; i++) {
+            Integer j = i;
         }
     }
 
 }
+
+

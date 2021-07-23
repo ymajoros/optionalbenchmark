@@ -14,6 +14,6 @@ public class BenchmarkExtension implements InvocationInterceptor {
         invocation.proceed();
         long time1 = System.nanoTime();
         long elapsedTime = time1 - time0;
-        System.out.printf("%s Ops/µs: %s%n", invocationContext.getExecutable(), (double) OptionalBenchmark.ITERATION_COUNT / elapsedTime);
+        System.out.printf("%s Ops/µs: %s (%s sec)%n", invocationContext.getExecutable(), (double) OptionalBenchmark.ITERATION_COUNT / elapsedTime, elapsedTime / 1000000000.0);
     }
 }
