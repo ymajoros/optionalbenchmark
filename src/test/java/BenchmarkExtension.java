@@ -10,6 +10,9 @@ public class BenchmarkExtension implements InvocationInterceptor {
     public void interceptTestMethod(Invocation<Void> invocation,
                                     ReflectiveInvocationContext<Method> invocationContext,
                                     ExtensionContext extensionContext) throws Throwable {
+        // waiting some reasonable time for GC to finish
+        Thread.sleep(20000);
+
         long time0 = System.nanoTime();
         invocation.proceed();
         long time1 = System.nanoTime();
